@@ -36,6 +36,10 @@
 
 #define BOARD_NAME "JGAurora A5S A1 board"
 
+// I2C EEPROM with 64K of space - AT24C64
+#define I2C_EEPROM
+#define E2END 0xFFFF
+
 //
 // Limit Switches
 //
@@ -82,6 +86,38 @@
 #define HEATER_BED_PIN     PA3
 
 #define FAN_PIN            PA1
+
+//
+// Connect the voice board module (myiic.h) - ATMLH712
+//
+//#define I2C_SCL            PB10    // is the correct constant to use?
+//#define I2C_SDA            PB11    // is the correct constant to use?
+
+//
+// Touch (ADS7846)
+//
+#define SPI1_NSS_PIN       PA4
+#define SPI1_SCK_PIN       PA5
+#define SPI1_MISO_PIN      PA6
+#define SPI1_MOSI_PIN      PA7
+
+//
+// Winbond Flash (W28Q128)
+//
+#define SPI2_NSS_PIN       PB12
+#define SPI2_SCK_PIN       PB13
+#define SPI2_MISO_PIN      PB14
+#define SPI2_MOSI_PIN      PB15
+
+//
+// SD Card
+//
+#define SDIO_D0            PC8
+#define SDIO_D1            PC9
+#define SDIO_D2            PC10
+#define SDIO_D3            PC11
+#define SDIO_CLK           PC12
+#define SDIO_CMD           PD2
 
 //
 // Misc.
