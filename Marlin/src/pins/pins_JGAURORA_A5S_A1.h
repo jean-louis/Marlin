@@ -36,6 +36,10 @@
 
 #define BOARD_NAME "JGAurora A5S A1 board"
 
+// MACHINE_MODEL
+#define A1                 0x01
+#define A5S                0x02
+
 // I2C EEPROM with 64K of space - AT24C64
 #define I2C_EEPROM
 #define E2END 0xFFFF
@@ -43,8 +47,14 @@
 //
 // Limit Switches
 //
-#define X_MIN_PIN          PC6
-#define X_MAX_PIN          -1
+#if MACHINE_MODEL == A1
+  // A1 use X_MAX_PIN to detect homing
+  #define X_MIN_PIN        -1
+  #define X_MAX_PIN        PC6
+#else
+  #define X_MIN_PIN        PC6
+  #define X_MAX_PIN        -1
+#endif
 #define Y_MIN_PIN          PG8
 #define Y_MAX_PIN          -1
 #define Z_MIN_PIN          PG7
