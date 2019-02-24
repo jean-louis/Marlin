@@ -104,6 +104,13 @@
 //#define I2C_SDA            PB11    // is the correct constant to use?
 
 //
+// LCD
+//
+#define LCD_BACKLIGHT_PIN  PF11
+#define FSMC_CS_PIN        PD7   // NE1
+#define FSMC_RS_PIN        PF0   // A0
+
+//
 // Touch (ADS7846)
 //
 #define SPI1_NSS_PIN       PA4
@@ -128,9 +135,11 @@
 #define SDIO_D3            PC11
 #define SDIO_CLK           PC12
 #define SDIO_CMD           PD2
+#define SD_DETECT_PIN      PF10
 
 //
 // Misc.
 //
-#define LED_PIN            -1
+#define BEEPER_PIN         PC3
+#define LED_PIN            PC13
 #define SDSS               -1
