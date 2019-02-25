@@ -97,6 +97,9 @@
 
 #define FAN_PIN            PA1
 
+#define PS_ON_PIN          PA0
+#define FIL_RUNOUT_PIN     PC7
+
 //
 // Connect the voice board module (myiic.h) - ATMLH712
 //
