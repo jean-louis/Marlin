@@ -101,12 +101,6 @@
 #define FIL_RUNOUT_PIN     PC7
 
 //
-// Connect the voice board module (myiic.h) - ATMLH712
-//
-//#define I2C_SCL            PB10    // is the correct constant to use?
-//#define I2C_SDA            PB11    // is the correct constant to use?
-
-//
 // LCD
 //
 #define LCD_BACKLIGHT_PIN  PF11
@@ -114,30 +108,8 @@
 #define FSMC_RS_PIN        PF0   // A0
 
 //
-// Touch (ADS7846)
-//
-#define SPI1_NSS_PIN       PA4
-#define SPI1_SCK_PIN       PA5
-#define SPI1_MISO_PIN      PA6
-#define SPI1_MOSI_PIN      PA7
-
-//
-// Winbond Flash (W28Q128)
-//
-#define SPI2_NSS_PIN       PB12
-#define SPI2_SCK_PIN       PB13
-#define SPI2_MISO_PIN      PB14
-#define SPI2_MOSI_PIN      PB15
-
-//
 // SD Card
 //
-#define SDIO_D0            PC8
-#define SDIO_D1            PC9
-#define SDIO_D2            PC10
-#define SDIO_D3            PC11
-#define SDIO_CLK           PC12
-#define SDIO_CMD           PD2
 #define SD_DETECT_PIN      PF10
 
 //
