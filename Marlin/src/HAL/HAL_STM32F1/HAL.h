@@ -44,6 +44,8 @@
 // Includes
 // --------------------------------------------------------------------------
 
+#include "../../inc/MarlinConfig.h"
+
 #include "../shared/math_32bit.h"
 #include "../shared/HAL_SPI.h"
 
