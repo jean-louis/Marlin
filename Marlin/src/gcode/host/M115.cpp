@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (C) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (C) 2011 Camiel Gubbels / Erik van der Zalm
@@ -40,14 +40,8 @@
  * M115: Capabilities string
  */
 void GcodeSuite::M115() {
-  #if NUM_SERIAL > 1
-    const int8_t port = command_queue_port[cmd_queue_index_r];
-    #define CAPLINE(STR,...) cap_line(PSTR(STR), port, __VA_ARGS__)
-  #else
-    #define CAPLINE(STR,...) cap_line(PSTR(STR), __VA_ARGS__)
-  #endif
 
-  SERIAL_ECHOLNPGM_P(port, MSG_M115_REPORT);
+  SERIAL_ECHOLNPGM(MSG_M115_REPORT);
 
   #if ENABLED(EXTENDED_CAPABILITIES_REPORT)
 
@@ -132,9 +126,16 @@ void GcodeSuite::M115() {
       #endif
     );
 
-    // EMERGENCY_PARSER (M108, M112, M410)
+    // EMERGENCY_PARSER (M108, M112, M410, M876)
     cap_line(PSTR("EMERGENCY_PARSER")
       #if ENABLED(EMERGENCY_PARSER)
+        , true
+      #endif
+    );
+
+    // PROMPT SUPPORT (M876)
+    cap_line(PSTR("PROMPT_SUPPORT")
+      #if ENABLED(HOST_PROMPT_SUPPORT)
         , true
       #endif
     );
