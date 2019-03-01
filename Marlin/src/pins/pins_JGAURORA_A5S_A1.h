@@ -105,7 +105,7 @@
 //
 #define LCD_BACKLIGHT_PIN  PF11
 #define FSMC_CS_PIN        PD7
-#define FSMC_RS_PIN        PF0
+#define FSMC_RS_PIN        PG0
 
 //
 // SD Card
