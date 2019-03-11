@@ -114,8 +114,8 @@
 #endif
 
 #if ENABLED(G38_PROBE_TARGET)
-  bool G38_move = false,
-       G38_endstop_hit = false;
+  uint8_t G38_move; // = 0
+  bool G38_did_trigger; // = false
 #endif
 
 #if ENABLED(DELTA)
@@ -179,11 +179,11 @@ bool Running = true;
 #endif
 
 // For M109 and M190, this flag may be cleared (by M108) to exit the wait loop
-volatile bool wait_for_heatup = true;
+bool wait_for_heatup = true;
 
 // For M0/M1, this flag may be cleared (by M108) to exit the wait-for-user loop
 #if HAS_RESUME_CONTINUE
-  volatile bool wait_for_user; // = false;
+  bool wait_for_user; // = false;
 #endif
 
 #if HAS_AUTO_REPORTING || ENABLED(HOST_KEEPALIVE_FEATURE)
@@ -764,11 +764,34 @@ void minkill() {
     suicide();
   #endif
 
-  while (1) {
-    #if ENABLED(USE_WATCHDOG)
-      watchdog_reset();
-    #endif
-  } // Wait for reset
+  #if HAS_KILL
+
+    // Wait for kill to be released
+    while (!READ(KILL_PIN)) {
+      #if ENABLED(USE_WATCHDOG)
+        watchdog_reset();
+      #endif
+    }
+
+    // Wait for kill to be pressed
+    while (READ(KILL_PIN)) {
+      #if ENABLED(USE_WATCHDOG)
+        watchdog_reset();
+      #endif
+    }
+
+    void(*resetFunc)(void) = 0; // Declare resetFunc() at address 0
+    resetFunc();                // Jump to address 0
+
+  #else // !HAS_KILL
+
+    for (;;) {
+      #if ENABLED(USE_WATCHDOG)
+        watchdog_reset();
+      #endif
+    } // Wait for reset
+
+  #endif // !HAS_KILL
 }
 
 /**
@@ -910,8 +933,7 @@ void setup() {
   #endif
 
   SERIAL_ECHO_START();
-  SERIAL_ECHOPAIR(MSG_FREE_MEMORY, freeMemory());
-  SERIAL_ECHOLNPAIR(MSG_PLANNER_BUFFER_BYTES, (int)sizeof(block_t)*BLOCK_BUFFER_SIZE);
+  SERIAL_ECHOLNPAIR(MSG_FREE_MEMORY, freeMemory(), MSG_PLANNER_BUFFER_BYTES, (int)sizeof(block_t) * (BLOCK_BUFFER_SIZE));
 
   queue_setup();
 
@@ -921,9 +943,7 @@ void setup() {
 
   #if HAS_M206_COMMAND
     // Initialize current position based on home_offset
-    COPY(current_position, home_offset);
-  #else
-    ZERO(current_position);
+    LOOP_XYZ(a) current_position[a] += home_offset[a];
   #endif
 
   // Vital to init stepper/planner equivalent for current_position
