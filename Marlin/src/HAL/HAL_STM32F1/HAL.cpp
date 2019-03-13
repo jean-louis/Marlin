@@ -31,7 +31,6 @@
 // Includes
 // --------------------------------------------------------------------------
 
-#include "../../inc/MarlinConfig.h"
 #include "HAL.h"
 #include <STM32ADC.h>
 #include "../../inc/MarlinConfig.h"
